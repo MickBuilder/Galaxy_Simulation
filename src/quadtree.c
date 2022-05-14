@@ -16,9 +16,6 @@ void display_region(Region region, double widthOfRegion) {
     double window_width = WINDOW_WIDTH * ((region.width / widthOfRegion));
     double window_height = WINDOW_HEIGHT * ((region.height / widthOfRegion));
 
-    // printf("Region original : (x = %d), (y = %d), (width = %d), (height = %d)\n", region.x, region.y, region.width, region.height);
-    // printf("Region minimised : (x = %f), (y = %f), (width = %f), (height = %f)\n", window_x, window_y, window_width, window_height);
-
     MLV_draw_rectangle(window_x, window_y, window_width, window_height, MLV_COLOR_RED);
 }
 
