@@ -59,9 +59,12 @@ run: $(MAIN)
 test: $(TEST)
 	./$(TEST)
 
+re: clean all
+
 clean:
 	$(RM) -r $(OBJ)
 	$(RM) $(MAIN)
 	$(RM) $(TEST)
+	$(RM) ./bin/stdout.txt ./bin/stderr.txt
 
-.PHONY: all clean run test
+.PHONY: all clean run test 

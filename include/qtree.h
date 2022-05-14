@@ -9,7 +9,7 @@
 #define QTREE_CAPACITY 4
 
 typedef struct region{
-    int x, y, width, height;
+    double x, y, width, height;
 } Region;
 
 typedef struct quadtree{
@@ -21,7 +21,7 @@ typedef struct quadtree{
     bool is_leaf;
 } Quadtree;
 
-Region *create_region(int x, int y, int width, int height);
+Region *create_region(double x, double y, double width, double height);
 
 void display_region(Region region, double scale);
 
@@ -36,6 +36,8 @@ void display_quadtree(Quadtree *quadtree, double scale);
 void print_quadtree(Quadtree *quadtree);
 
 void compute_gravitational_force(Quadtree *quadtree, Star *star);
+
+void compute_gravitational_acceleration(Quadtree *quadtree, Star *star);
 
 void subdivide_quadtree(Quadtree *quadtree);
 
