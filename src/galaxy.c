@@ -28,8 +28,6 @@ void draw_galaxy(Galaxy *galaxy) {
         Star *star = galaxy->stars[i];
         draw_star(star, galaxy->widthOfRegion);
     }
-
-    //display_quadtree(galaxy->quadtree, galaxy->widthOfRegion);
 }
 
 void init_galaxy(FILE *file, Galaxy *galaxy) {
