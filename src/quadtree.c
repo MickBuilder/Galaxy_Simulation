@@ -86,43 +86,11 @@ void print_quadtree(Quadtree *quadtree) {
     print_quadtree(quadtree->se);
 }
 
-void compute_gravitational_force(Quadtree *quadtree, Star *star) {
-    if (quadtree == NULL) {
-        return;
-    }
-
-    if (quadtree->star != NULL && quadtree->is_leaf && quadtree->star != star) {
-        //update_star(&star, quadtree->star->position, quadtree->mass);
-        update_star_acceleration(&star, quadtree->star->position, quadtree->star->mass);
-        //display_region(quadtree->region, 2.83800e+06);
-        return;
-    }
-
-    if (!quadtree->is_leaf) {
-        if (is_far_from_star(quadtree->region, quadtree->mass_center, *star)) {
-            update_star_acceleration(&star, quadtree->mass_center, quadtree->mass);
-            //display_region(quadtree->region, 2.83800e+06);
-            return;
-        } else {
-            compute_gravitational_force(quadtree->nw, star);
-            compute_gravitational_force(quadtree->ne, star);
-            compute_gravitational_force(quadtree->sw, star);
-            compute_gravitational_force(quadtree->se, star);
-        }
-
-        /*compute_gravitational_force(quadtree->nw, star);
-        compute_gravitational_force(quadtree->ne, star);
-        compute_gravitational_force(quadtree->sw, star);
-        compute_gravitational_force(quadtree->se, star);*/
-    }
-    //display_region(quadtree->region, 2.83800e+06);
-}
-
 void compute_gravitational_acceleration(Quadtree *quadtree, Star *star) {
     if (quadtree == NULL) {
         return;
     }
-    
+
     if (quadtree->is_leaf && quadtree->star != star) {
         //printf("It's a leaf and different so add force\n");
         update_star_acceleration(&star, quadtree->star->position, quadtree->star->mass);
@@ -135,10 +103,10 @@ void compute_gravitational_acceleration(Quadtree *quadtree, Star *star) {
             //display_region(quadtree->region, 2.83800e+06);
             return;
         } else {
-            compute_gravitational_force(quadtree->nw, star);
-            compute_gravitational_force(quadtree->ne, star);
-            compute_gravitational_force(quadtree->sw, star);
-            compute_gravitational_force(quadtree->se, star);
+            compute_gravitational_acceleration(quadtree->nw, star);
+            compute_gravitational_acceleration(quadtree->ne, star);
+            compute_gravitational_acceleration(quadtree->sw, star);
+            compute_gravitational_acceleration(quadtree->se, star);
         }
     }
     display_region(quadtree->region, 2.83800e+06);
