@@ -38,7 +38,7 @@ void init_galaxy(FILE *file, Galaxy *galaxy) {
 }
 
 void update_galaxy(Galaxy *galaxy, Quadtree *quadtree) {
-    /*for (int i = 0; i < galaxy->nb_stars; i++) {
+    for (int i = 0; i < galaxy->nb_stars; i++) {
         Star *star = galaxy->stars[i];
         init_acceleration(&star);
         for (int j = 0; j < galaxy->nb_stars; j++) {
@@ -53,10 +53,9 @@ void update_galaxy(Galaxy *galaxy, Quadtree *quadtree) {
         Star *star = galaxy->stars[i];
         update_star_velocity(&star);
         update_star_position(&star);
-    }*/
+    }
 
-    Region *region = create_region(-galaxy->widthOfRegion/2, -galaxy->widthOfRegion/2, galaxy->widthOfRegion, galaxy->widthOfRegion);
-    //MLV_draw_rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, MLV_COLOR_RED);
+    /*Region *region = create_region(-galaxy->widthOfRegion/2, -galaxy->widthOfRegion/2, galaxy->widthOfRegion, galaxy->widthOfRegion);
     quadtree = create_quadtree(*region);
 
     for (int i = 0; i < galaxy->nb_stars; i++) {
@@ -71,15 +70,13 @@ void update_galaxy(Galaxy *galaxy, Quadtree *quadtree) {
         compute_gravitational_acceleration(quadtree, star);
     }
 
-    //display_quadtree(quadtree, galaxy->widthOfRegion);
-
     for (int i = 0; i < galaxy->nb_stars; i++) {
         Star *star = galaxy->stars[i];
         update_star_velocity(&star);
         update_star_position(&star);
     }
 
-    free_quadtree(quadtree);
+    free_quadtree(quadtree);*/
 }
 
 void free_galaxy(Galaxy *galaxy) {
