@@ -91,7 +91,7 @@ void compute_gravitational_acceleration(Quadtree *quadtree, Star *star) {
         return;
     }
 
-    if (quadtree->is_leaf && quadtree->star != star) {
+    if (quadtree->star != NULL && quadtree->is_leaf && quadtree->star != star) {
         //printf("It's a leaf and different so add force\n");
         update_star_acceleration(&star, quadtree->star->position, quadtree->star->mass);
         //display_region(quadtree->region, 2.83800e+06);
