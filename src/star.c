@@ -25,8 +25,8 @@ Star *create_star(double x, double y, double vx, double vy, double mass) {
 }
 
 void draw_star(Star *star, double scale) {
-    int window_x = WINDOW_WIDTH * (0.5+0.5*(star->position->x/scale));
-    int window_y = WINDOW_HEIGHT * (0.5+0.5*(star->position->y/scale));
+    int window_x = WINDOW_WIDTH * (0.5 + (star->position->x/scale));
+    int window_y = WINDOW_HEIGHT * (0.5 + (star->position->y/scale));
 
     MLV_draw_filled_circle(window_x, window_y, star->radius, star->color);
 }

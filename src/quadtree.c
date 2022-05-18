@@ -11,8 +11,8 @@ Region *create_region(int x, int y, int width, int height) {
 }
 
 void display_region(Region region, double widthOfRegion) {
-    double window_x = WINDOW_WIDTH * (0.5 * (region.x / widthOfRegion));
-    double window_y = WINDOW_HEIGHT * (0.5 * (region.y / widthOfRegion));
+    double window_x = WINDOW_WIDTH * (0.5 + (region.x / widthOfRegion));
+    double window_y = WINDOW_HEIGHT * (0.5 + (region.y / widthOfRegion));
     double window_width = WINDOW_WIDTH * ((region.width / widthOfRegion));
     double window_height = WINDOW_HEIGHT * ((region.height / widthOfRegion));
 
