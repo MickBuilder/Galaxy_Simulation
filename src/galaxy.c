@@ -68,6 +68,8 @@ void update_galaxy(Galaxy *galaxy, Quadtree *quadtree) {
         compute_gravitational_acceleration(quadtree, star);
     }
 
+    for (int i = 0; i < galaxy->nb_stars; i++) {
+        Star *star = galaxy->stars[i];
         update_star_velocity(&star);
         update_star_position(&star);
     }

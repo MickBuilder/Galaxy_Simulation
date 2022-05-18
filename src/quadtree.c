@@ -26,7 +26,7 @@ bool is_in_region(Region region, Star star) {
 
 bool is_far_from_star(Region region, Point *mass_center, Star star) {
     double dist = distance(star.position, mass_center);
-    int region_width = region.width;
+    double region_width = region.width;
 
     return region_width < dist / 2;
 }
@@ -88,11 +88,13 @@ void compute_gravitational_acceleration(Quadtree *quadtree, Star *star) {
         return;
     }
 
-    if (quadtree->star != NULL && quadtree->is_leaf && quadtree->star != star) {
+    if (quadtree->star != NULL && quadtree->is_leaf) {
         //printf("It's a leaf and different so add force\n");
-        update_star_acceleration(&star, quadtree->star->position, quadtree->star->mass);
+        if(quadtree->star != star) {
+            update_star_acceleration(&star, quadtree->star->position, quadtree->star->mass);
+            return;
+        }
         //display_region(quadtree->region, 2.83800e+06);
-        return;
     } else if (!quadtree->is_leaf){
         //printf("It's a node so check the distance and add force\n");
         if (is_far_from_star(quadtree->region, quadtree->mass_center, *star)) {
@@ -106,7 +108,7 @@ void compute_gravitational_acceleration(Quadtree *quadtree, Star *star) {
             compute_gravitational_acceleration(quadtree->se, star);
         }
     }
-    display_region(quadtree->region, 2.83800e+06);
+    //display_region(quadtree->region, 2.83800e+06);
 }
 
 void subdivide_quadtree(Quadtree *quadtree) {
@@ -114,6 +116,8 @@ void subdivide_quadtree(Quadtree *quadtree) {
     int y = quadtree->region.y;
     int width = quadtree->region.width;
     int height = quadtree->region.height;
+
+    //printf("Region: %d, %d, %d, %d\n", x, y, width, height);
 
     Region* nw_region = create_region(x, y, width / 2, height / 2);
     Region* ne_region = create_region(x + width / 2, y, width / 2, height / 2);
@@ -131,52 +135,69 @@ void subdivide_quadtree(Quadtree *quadtree) {
     free(se_region);
 }
 
-void insert_star(Quadtree *quadtree, Star *star) {
-    if (!is_in_region(quadtree->region, *star)) {
-        return;
+static void insert_star_in_children(Quadtree *quadtree, Star *star) {
+    if(is_in_region(quadtree->nw->region, *star)) {
+        insert_star(quadtree->nw, star);
+    } else if (is_in_region(quadtree->ne->region, *star)) {
+        insert_star(quadtree->ne, star);
+    } else if (is_in_region(quadtree->se->region, *star)) {
+        insert_star(quadtree->se, star);
+    } else if (is_in_region(quadtree->sw->region, *star)) {
+        insert_star(quadtree->sw, star);
     }
+}
+
+void insert_star(Quadtree *quadtree, Star *star) {
+    /*if (!is_in_region(quadtree->region, *star)) {
+        return;
+    }*/
 
     if (!quadtree->is_leaf) {
-        double old_mass = quadtree->mass;
-        double old_center_x = quadtree->mass_center->x;
-        double old_center_y = quadtree->mass_center->y;
+        double new_mass = quadtree->mass + star->mass;
+        double new_center_x = (quadtree->mass_center->x * quadtree->mass + star->position->x * star->mass) / new_mass;
+        double new_center_y = (quadtree->mass_center->y * quadtree->mass + star->position->y * star->mass) / new_mass;
 
-        quadtree->mass = old_mass + star->mass;
+        quadtree->mass = new_mass;
 
         /* Update mass center */
-        quadtree->mass_center->x = (old_center_x * old_mass + star->position->x * star->mass) / quadtree->mass;
-        quadtree->mass_center->y = (old_center_y * old_mass + star->position->y * star->mass) / quadtree->mass;
+        quadtree->mass_center->x = new_center_x;
+        quadtree->mass_center->y = new_center_y;
 
         /* Insert new star */
         insert_star(quadtree->nw, star);
         insert_star(quadtree->ne, star);
         insert_star(quadtree->sw, star);
         insert_star(quadtree->se, star);
-    } else {
-        if (quadtree->star == NULL) {
-            quadtree->star = star;
-        } else {
-            subdivide_quadtree(quadtree);
-            quadtree->is_leaf = false;
-
-            quadtree->mass_center = create_point(0.0, 0.0);
-            quadtree->mass = 0;
-
-            Star *old_star = quadtree->star;
-            /* Reinsert old star */
-            insert_star(quadtree->nw, old_star);
-            insert_star(quadtree->ne, old_star);
-            insert_star(quadtree->sw, old_star);
-            insert_star(quadtree->se, old_star);
-            quadtree->star = NULL;
-
-            /* Insert new star */
-            insert_star(quadtree->nw, star);
-            insert_star(quadtree->ne, star);
-            insert_star(quadtree->sw, star);
-            insert_star(quadtree->se, star);
-        }
+        return;
     }
+
+    if (quadtree->star == NULL) {
+        quadtree->star = star;
+    } else {
+        subdivide_quadtree(quadtree);
+        quadtree->is_leaf = false;
+
+        quadtree->mass_center = create_point(0.0, 0.0);
+        quadtree->mass = 0;
+
+        Star *old_star = quadtree->star;
+        quadtree->star = NULL;
+        /* Reinsert old star */
+        /*insert_star(quadtree->nw, old_star);
+        insert_star(quadtree->ne, old_star);
+        insert_star(quadtree->sw, old_star);
+        insert_star(quadtree->se, old_star);*/
+        insert_star_in_children(quadtree, old_star);
+
+
+        /* Insert new star */
+        /*insert_star(quadtree->nw, star);
+        insert_star(quadtree->ne, star);
+        insert_star(quadtree->sw, star);
+        insert_star(quadtree->se, star);*/
+        insert_star_in_children(quadtree, star);
+    }
+
 }
 
 void free_quadtree(Quadtree *quadtree) {
