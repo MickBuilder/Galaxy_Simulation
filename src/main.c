@@ -60,6 +60,9 @@ int main(int argc, char *argv[]) {
 
         MLV_draw_filled_rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, MLV_COLOR_BLACK);
         update_galaxy(&galaxy, quadtree);
+        MLV_draw_text(10, 25, "FPS: %d", 
+            MLV_COLOR_WHITE, MLV_get_frame_rate()
+        );
         draw_galaxy(&galaxy);
         
         MLV_update_window();
@@ -69,6 +72,8 @@ int main(int argc, char *argv[]) {
         //MLV_wait_milliseconds(1000);
         MLV_delay_according_to_frame_rate();
     } while (!quit);
+
+    free_galaxy(&galaxy);
 
     MLV_free_window();
 
