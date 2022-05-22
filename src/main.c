@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     int quit = 0;
 
     if (argc != 2) {
-        printf("Usage: %s <file_of_stars>\n", argv[0]);
+        printf("Usage: %s ./data/stars_....txt\n", argv[0]);
         return 1;
     }
     
