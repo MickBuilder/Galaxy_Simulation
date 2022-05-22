@@ -109,7 +109,7 @@ void compute_gravitational_acceleration(Quadtree *quadtree, Star *star) {
             compute_gravitational_acceleration(quadtree->se, star);
         }
     }
-    display_region(quadtree->region, 2.83800e+06);
+    /*display_region(quadtree->region, 2.83800e+06);*/
 }
 
 void subdivide_quadtree(Quadtree *quadtree) {
