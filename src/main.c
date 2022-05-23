@@ -18,7 +18,7 @@ int main(int argc, char *argv[]) {
     int quit = 0;
 
     if (argc != 2) {
-        printf("Usage: %s <file_of_stars>\n", argv[0]);
+        printf("Usage: %s ./data/stars_....txt\n", argv[0]);
         return 1;
     }
     
@@ -35,18 +35,17 @@ int main(int argc, char *argv[]) {
     /* Open the window */
     MLV_create_window("Galaxy Simulation", NULL, WINDOW_WIDTH, WINDOW_HEIGHT);
 
-    /* Initialise the galaxy */
-    //init_galaxy(file, &galaxy);
-
-
-    /* Draw the galaxy */
-    draw_galaxy(&galaxy);
-
     double timestamp = 0.0;
+    /*int old_time = MLV_get_time();*/
     /* Update the galaxy */
     do {
-        event = MLV_get_event(NULL, NULL, NULL, NULL, NULL, &mouse_x, &mouse_y, NULL, NULL);
+        // to compute the fps
+        /*int new_time = MLV_get_time();
+        double time_second = (new_time - old_time) / 1000.0;
+        double fps = 1.0 / time_second;
+        old_time = new_time;*/
 
+        event = MLV_get_event(NULL, NULL, NULL, NULL, NULL, &mouse_x, &mouse_y, NULL, NULL);
         switch (event) {
             case MLV_MOUSE_BUTTON:
                 quit = 1;
@@ -60,6 +59,9 @@ int main(int argc, char *argv[]) {
 
         MLV_draw_filled_rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, MLV_COLOR_BLACK);
         update_galaxy(&galaxy, quadtree);
+        MLV_draw_text(10, 25, "FPS: %d", 
+            MLV_COLOR_WHITE, MLV_get_frame_rate()
+        );
         draw_galaxy(&galaxy);
         
         MLV_update_window();
