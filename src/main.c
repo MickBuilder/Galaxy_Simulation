@@ -1,7 +1,7 @@
 #include "galaxy.h"
 
-int WINDOW_WIDTH  = 700;
-int WINDOW_HEIGHT = 700;
+int WINDOW_WIDTH  = 900;
+int WINDOW_HEIGHT = 900;
 
 double G  = 6.674e-11; /* the gravitational constant */
 double dt = 0.1 ;      /* time step */
@@ -69,6 +69,8 @@ int main(int argc, char *argv[]) {
         //MLV_wait_milliseconds(1000);
         MLV_delay_according_to_frame_rate();
     } while (!quit);
+
+    free_galaxy(&galaxy);
 
     MLV_free_window();
 
