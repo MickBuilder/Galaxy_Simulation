@@ -11,8 +11,8 @@ extern double dt;
 extern double G;
 extern double soomthing_length;
 
-#define DEFAULT_MASS    1e21
-#define DEFAULT_RADIUS  2
+#define DEFAULT_MASS    1e18
+#define DEFAULT_RADIUS  1
 #define DEFALUT_COLOR   MLV_COLOR_WHITE
 #define RANDOM_COLOR    MLV_rgba(rand()%256, rand()%256, rand()%256, 255)
 
@@ -57,6 +57,8 @@ void update_star_velocity(Star **star);
 void update_star_position(Star **star);
 
 void update_star(Star **star, Star *other_star);
+
+void merge_star(Star **star, Star *other_star);
 
 void free_star(Star *star);
 

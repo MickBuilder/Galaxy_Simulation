@@ -28,7 +28,10 @@ void draw_star(Star *star, double scale) {
     int window_x = WINDOW_WIDTH * (0.5 + (star->position->x/scale));
     int window_y = WINDOW_HEIGHT * (0.5 + (star->position->y/scale));
 
-    MLV_draw_filled_circle(window_x, window_y, star->radius, star->color);
+    double radius_factor = log10(star->mass) - log10(DEFAULT_MASS);
+    double radius = DEFAULT_RADIUS + radius_factor;
+
+    MLV_draw_filled_circle(window_x, window_y, radius, star->color);
 }
 
 void init_acceleration(Star **star) {
@@ -62,9 +65,28 @@ void update_star(Star **star, Star *other_star) {
     update_star_position(star);
 }
 
-void free_star(Star *star) {
-    if (star == NULL) { return; }
+void merge_star(Star **star, Star *other_star) {
+    //(*star)->mass += other_star->mass;
+    //(*star)->radius = log10((*star)->mass) - log10(DEFAULT_MASS);
 
+    int star_window_x = WINDOW_WIDTH * (0.5 + ((*star)->position->x/2.83800e+06));
+    int star_window_y = WINDOW_HEIGHT * (0.5 + ((*star)->position->y/2.83800e+06));
+
+    int other_star_window_x = WINDOW_WIDTH * (0.5 + ((other_star->position->x/2.83800e+06)));
+    int other_star_window_y = WINDOW_HEIGHT * (0.5 + ((other_star->position->y/2.83800e+06)));
+
+    MLV_draw_line(star_window_x, star_window_y, other_star_window_x, other_star_window_y, MLV_COLOR_ROSY_BROWN);
+
+    (*star)->mass += other_star->mass;
+
+    other_star->mass = 0.0;
+
+    update_star_acceleration(star, other_star->position, other_star->mass);
+
+    free_star(other_star);
+}
+
+void free_star(Star *star) {
     free(star->position);
     free(star->velocity);
     free(star->acceleration);
