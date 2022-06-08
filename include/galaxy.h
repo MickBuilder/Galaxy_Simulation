@@ -5,6 +5,8 @@
 #include "qtree.h"
 #include "star.h"
 
+#define MIN_DISTANCE_BETWEEN_STARS 1e5
+
 typedef struct galaxy_{
     int nb_stars;
     double widthOfRegion;
