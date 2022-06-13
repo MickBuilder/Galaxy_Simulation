@@ -36,14 +36,21 @@ int main(int argc, char *argv[]) {
     MLV_create_window("Galaxy Simulation", NULL, WINDOW_WIDTH, WINDOW_HEIGHT);
 
     double timestamp = 0.0;
-    /*int old_time = MLV_get_time();*/
+    int old_time = MLV_get_time();
+    int new_time = MLV_get_time();
+    int fps = 0, frame_counter = 0;
     /* Update the galaxy */
     do {
         // to compute the fps
-        /*int new_time = MLV_get_time();
+/*         int new_time = MLV_get_time();
         double time_second = (new_time - old_time) / 1000.0;
-        double fps = 1.0 / time_second;
-        old_time = new_time;*/
+        old_time = new_time; */
+        if(new_time - old_time >= 1000){
+            old_time = MLV_get_time();
+            fps = frame_counter;
+            frame_counter = 0;
+        }
+        new_time = MLV_get_time();
 
         event = MLV_get_event(NULL, NULL, NULL, NULL, NULL, &mouse_x, &mouse_y, NULL, NULL);
         switch (event) {
@@ -60,7 +67,7 @@ int main(int argc, char *argv[]) {
         MLV_draw_filled_rectangle(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT, MLV_COLOR_BLACK);
         update_galaxy(&galaxy, quadtree);
         MLV_draw_text(10, 25, "FPS: %d", 
-            MLV_COLOR_WHITE, MLV_get_frame_rate()
+            MLV_COLOR_WHITE, fps
         );
         draw_galaxy(&galaxy);
         
@@ -70,6 +77,7 @@ int main(int argc, char *argv[]) {
         timestamp += dt;
         //MLV_wait_milliseconds(1000);
         MLV_delay_according_to_frame_rate();
+        frame_counter++;
     } while (!quit);
 
     free_galaxy(&galaxy);

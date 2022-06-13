@@ -47,7 +47,7 @@ void update_galaxy(Galaxy *galaxy, Quadtree *quadtree) {
                     if (other_star != NULL) {
                         if(distance(star->position, other_star->position) < MIN_DISTANCE_BETWEEN_STARS
                             && star->mass > other_star->mass) {
-                            printf("too close. Eat him!\n");
+                            //printf("too close. Eat him!\n");
                             merge_star(&star, other_star);
                         } else {
                             update_star_acceleration(&star, other_star->position, other_star->mass);

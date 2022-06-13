@@ -83,7 +83,8 @@ void merge_star(Star **star, Star *other_star) {
 
     update_star_acceleration(star, other_star->position, other_star->mass);
 
-    free_star(other_star);
+    //free_star(other_star);
+    other_star = NULL;
 }
 
 void free_star(Star *star) {
