@@ -19,6 +19,7 @@ int main(int argc, char *argv[]) {
 
     if (argc != 2) {
         printf("Usage: %s ./data/stars_....txt\n", argv[0]);
+        /* ./exec.exe ./data/stars_...txt --quad --show */
         return 1;
     }
     
