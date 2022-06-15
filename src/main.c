@@ -43,7 +43,7 @@ int main(int argc, char *argv[]) {
         return 1;
     }
 
-    for(int i = 0; i < argc; i++) {
+    for(int i = 2; i < argc; i++) {
         if (strcmp(argv[i], "--quad") == 0) {
             vers = QUADTREE;
         } else if(strcmp(argv[i], "--show") == 0) {
