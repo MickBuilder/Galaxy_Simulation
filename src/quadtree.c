@@ -93,11 +93,9 @@ void compute_gravitational_acceleration(Quadtree *quadtree, Star *star) {
             update_star_acceleration(&star, quadtree->star->position, quadtree->star->mass);
             return;
         }
-        //display_region(quadtree->region, 2.83800e+06);
     } else if (!quadtree->is_leaf){
         if (is_far_from_star(quadtree->region, quadtree->mass_center, *star)) {
             update_star_acceleration(&star, quadtree->mass_center, quadtree->mass);
-            //display_region(quadtree->region, 2.83800e+06);
             return;
         } else {
             compute_gravitational_acceleration(quadtree->nw, star);
@@ -106,7 +104,6 @@ void compute_gravitational_acceleration(Quadtree *quadtree, Star *star) {
             compute_gravitational_acceleration(quadtree->se, star);
         }
     }
-    //display_region(quadtree->region, 2.83800e+06);
 }
 
 void subdivide_quadtree(Quadtree *quadtree) {

@@ -19,7 +19,9 @@ void init_galaxy(FILE *file, Galaxy *galaxy);
 
 void draw_galaxy(Galaxy *galaxy);
 
-void update_galaxy(Galaxy *galaxy, Quadtree *quadtree);
+void update_galaxy_simple(Galaxy *galaxy, Quadtree *quadtree);
+
+void update_galaxy_with_quadtree(Galaxy *galaxy, Quadtree *quadtree, int show);
 
 void free_galaxy(Galaxy *galaxy);
 
