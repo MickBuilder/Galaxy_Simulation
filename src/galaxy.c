@@ -36,7 +36,7 @@ void init_galaxy(FILE *file, Galaxy *galaxy) {
 }
 
 void update_galaxy_simple(Galaxy *galaxy, Quadtree *quadtree) {
-    for (int i = 0; i < galaxy->nb_stars; i++) {
+    /*for (int i = 0; i < galaxy->nb_stars; i++) {
         Star *star = galaxy->stars[i];
         if (star != NULL) {
             init_acceleration(&star);
@@ -59,9 +59,9 @@ void update_galaxy_simple(Galaxy *galaxy, Quadtree *quadtree) {
                 }
             }
         }
-    }
+    }*/
 
-    for (int i = 0; i < galaxy->nb_stars; i++) {
+    /*for (int i = 0; i < galaxy->nb_stars; i++) {
         Star *star = galaxy->stars[i];
         if (star != NULL) {
             update_star_velocity(&star);
@@ -71,8 +71,8 @@ void update_galaxy_simple(Galaxy *galaxy, Quadtree *quadtree) {
             continue;
         }
         /*update_star_velocity(&star);
-        update_star_position(&star);*/
-    }
+        update_star_position(&star);*
+    }*/
 
     /*for (int i = 0; i < galaxy->nb_stars; i++) {
         Star *star = galaxy->stars[i];
@@ -88,6 +88,21 @@ void update_galaxy_simple(Galaxy *galaxy, Quadtree *quadtree) {
             }
         }
     }*/
+    for (int i = 0; i < galaxy->nb_stars; i++) {
+        Star *star = galaxy->stars[i];
+        init_acceleration(&star);
+        for (int j = 0; j < galaxy->nb_stars; j++) {
+            if (i != j) {
+                Star *other_star = galaxy->stars[j];
+                update_star_acceleration(&star, other_star->position, other_star->mass);
+            }
+        }
+    }
+    for (int i = 0; i < galaxy->nb_stars; i++) {
+        Star *star = galaxy->stars[i];
+        update_star_velocity(&star);
+        update_star_position(&star);
+    }
 }
 
 void update_galaxy_with_quadtree(Galaxy *galaxy, Quadtree *quadtree, int show) {
