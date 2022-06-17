@@ -58,7 +58,7 @@ void update_star_position(Star **star);
 
 void update_star(Star **star, Star *other_star);
 
-void merge_star(Star **star, Star *other_star);
+void merge_star(Star **star, Star **other_star);
 
 void free_star(Star *star);
 

@@ -45,3 +45,7 @@ The comparison between the two versions is make using the average time of each t
 > We can notice that when the numbers of stars is less than 1000, there is no difference between the simulation
 
 > There is some hidden constant in the complexity of the simulation.
+
+- Version A : Hidden constant -> O(n)
+
+- Version B : Hidden constant -> 2 x O(n)

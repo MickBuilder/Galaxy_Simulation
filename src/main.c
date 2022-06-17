@@ -37,9 +37,7 @@ int main(int argc, char *argv[]) {
     version vers = SIMPLE;
 
     if (argc < 2 || argc > 4) {
-        //printf("Usage: %s ./data/stars_....txt\n", argv[0]);
         display_help(argv[0]);
-        /* ./exec.exe ./data/stars_...txt --quad --show */
         return 1;
     }
 
@@ -77,10 +75,6 @@ int main(int argc, char *argv[]) {
     int fps = 0, frame_counter = 0;
     /* Update the galaxy */
     do {
-        // to compute the fps
-/*         int new_time = MLV_get_time();
-        double time_second = (new_time - old_time) / 1000.0;
-        old_time = new_time; */
         if(new_time - old_time >= 1000){
             old_time = MLV_get_time();
             fps = frame_counter;
@@ -128,10 +122,9 @@ int main(int argc, char *argv[]) {
         timestamp += dt;
         frame_counter++;
 
-        if(nb_tour == 150) {
+        if(nb_tour == 1500) {
             quit = 1;
         }
-        //MLV_wait_milliseconds(1000);
         MLV_delay_according_to_frame_rate();
     } while (!quit);
 

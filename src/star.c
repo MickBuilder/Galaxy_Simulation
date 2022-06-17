@@ -65,26 +65,21 @@ void update_star(Star **star, Star *other_star) {
     update_star_position(star);
 }
 
-void merge_star(Star **star, Star *other_star) {
-    //(*star)->mass += other_star->mass;
-    //(*star)->radius = log10((*star)->mass) - log10(DEFAULT_MASS);
-
+void merge_star(Star **star, Star **other_star) {
     int star_window_x = WINDOW_WIDTH * (0.5 + ((*star)->position->x/2.83800e+06));
     int star_window_y = WINDOW_HEIGHT * (0.5 + ((*star)->position->y/2.83800e+06));
 
-    int other_star_window_x = WINDOW_WIDTH * (0.5 + ((other_star->position->x/2.83800e+06)));
-    int other_star_window_y = WINDOW_HEIGHT * (0.5 + ((other_star->position->y/2.83800e+06)));
+    int other_star_window_x = WINDOW_WIDTH * (0.5 + (((*other_star)->position->x/2.83800e+06)));
+    int other_star_window_y = WINDOW_HEIGHT * (0.5 + (((*other_star)->position->y/2.83800e+06)));
 
     MLV_draw_line(star_window_x, star_window_y, other_star_window_x, other_star_window_y, MLV_COLOR_ROSY_BROWN);
 
-    (*star)->mass += other_star->mass;
+    (*star)->mass += (*other_star)->mass;
 
-    other_star->mass = 0.0;
+    (*other_star)->mass = 0.0;
+    //(*other_star)->color = MLV_COLOR_BLACK; /* cheat: to gave the impression that the star is gone */
 
-    update_star_acceleration(star, other_star->position, other_star->mass);
-
-    //free_star(other_star);
-    other_star = NULL;
+    (*other_star) = NULL;
 }
 
 void free_star(Star *star) {

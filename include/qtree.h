@@ -6,8 +6,6 @@
 #include <MLV/MLV_all.h>
 #include "star.h"
 
-#define QTREE_CAPACITY 4
-
 typedef struct region{
     double x, y, width, height;
 } Region;
