@@ -128,6 +128,9 @@ int main(int argc, char *argv[]) {
         timestamp += dt;
         frame_counter++;
 
+        if(nb_tour == 150) {
+            quit = 1;
+        }
         //MLV_wait_milliseconds(1000);
         MLV_delay_according_to_frame_rate();
     } while (!quit);
